@@ -4,44 +4,44 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Ruta del directorio que contiene las fotos
-        string rutaFotos = @"D:\Acceso Rapido\Imagenes\Varios";
+        string rutaFotos2021 = @"D:\Acceso Rapido\Imagenes\2021";
+        string rutaFotos2022 = @"D:\Acceso Rapido\Imagenes\2022";
+        string rutaFotos2023 = @"D:\Acceso Rapido\Imagenes\2023";
+        string rutaFotos2024 = @"D:\Acceso Rapido\Imagenes\2024";
+        RecolectorDeImagenes(rutaFotos2021);
+        RecolectorDeImagenes(rutaFotos2022);
+        RecolectorDeImagenes(rutaFotos2023);
+        RecolectorDeImagenes(rutaFotos2024);
+    }
 
-        // Obtenemos la lista de todas las fotos en el directorio
+    private static void RecolectorDeImagenes(string rutaFotos)
+    {
         string[] fotos = Directory.GetFiles(rutaFotos);
 
-        // Iteramos sobre cada foto
         foreach (string foto in fotos)
         {
             try
             {
-                // Obtenemos la fecha de creación de la foto
-                DateTime fechaCreacion = File.GetCreationTime(foto);
+                FileInfo fileInfo = new FileInfo(foto);
+                DateTime fechaCreacion = fileInfo.CreationTime; // Utilizar CreationTime o LastWriteTime según tus necesidades
 
-                // Obtenemos el año de la fecha de creación
                 string año = fechaCreacion.Year.ToString();
-
-                // Creamos la carpeta del año si no existe
                 string rutaCarpetaAño = Path.Combine(rutaFotos, año);
                 if (!Directory.Exists(rutaCarpetaAño))
                 {
                     Directory.CreateDirectory(rutaCarpetaAño);
                 }
 
-                // Movemos la foto a la carpeta del año correspondiente
                 string nombreArchivo = Path.GetFileName(foto);
                 string rutaDestino = Path.Combine(rutaCarpetaAño, nombreArchivo);
 
-                // Verificamos si ya existe un archivo con el mismo nombre en la carpeta del año
                 if (File.Exists(rutaDestino))
                 {
-                    // Si existe, lo reemplazamos forzadamente
                     File.Copy(foto, rutaDestino, true);
-                    File.Delete(foto); // Opcional: eliminar la foto original después de copiarla
+                    File.Delete(foto);
                 }
                 else
                 {
-                    // Si no existe, simplemente movemos la foto
                     File.Move(foto, rutaDestino);
                 }
             }
@@ -50,8 +50,5 @@ class Program
                 Console.WriteLine($"Error al organizar la foto {foto}: {ex.Message}");
             }
         }
-
-        Console.WriteLine("Proceso completado. Se han creado carpetas por año y organizado las fotos dentro de esas carpetas, reemplazando las fotos existentes si es necesario.");
-        Console.ReadLine();
     }
 }
