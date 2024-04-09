@@ -31,7 +31,19 @@ class Program
                 // Movemos la foto a la carpeta del año correspondiente
                 string nombreArchivo = Path.GetFileName(foto);
                 string rutaDestino = Path.Combine(rutaCarpetaAño, nombreArchivo);
-                File.Move(foto, rutaDestino);
+
+                // Verificamos si ya existe un archivo con el mismo nombre en la carpeta del año
+                if (File.Exists(rutaDestino))
+                {
+                    // Si existe, lo reemplazamos forzadamente
+                    File.Copy(foto, rutaDestino, true);
+                    File.Delete(foto); // Opcional: eliminar la foto original después de copiarla
+                }
+                else
+                {
+                    // Si no existe, simplemente movemos la foto
+                    File.Move(foto, rutaDestino);
+                }
             }
             catch (Exception ex)
             {
@@ -39,7 +51,7 @@ class Program
             }
         }
 
-        Console.WriteLine("Proceso completado. Se han creado carpetas por año y organizado las fotos dentro de esas carpetas.");
+        Console.WriteLine("Proceso completado. Se han creado carpetas por año y organizado las fotos dentro de esas carpetas, reemplazando las fotos existentes si es necesario.");
         Console.ReadLine();
     }
 }
