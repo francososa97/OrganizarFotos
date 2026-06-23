@@ -4,14 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        string rutaFotos2021 = @"D:\Acceso Rapido\Imagenes\2021";
-        string rutaFotos2022 = @"D:\Acceso Rapido\Imagenes\2022";
-        string rutaFotos2023 = @"D:\Acceso Rapido\Imagenes\2023";
-        string rutaFotos2024 = @"D:\Acceso Rapido\Imagenes\2024";
-        RecolectorDeImagenes(rutaFotos2021);
-        RecolectorDeImagenes(rutaFotos2022);
-        RecolectorDeImagenes(rutaFotos2023);
-        RecolectorDeImagenes(rutaFotos2024);
+        string rutaFotos = @"D:\Acceso Rapido\Imagenes\a organizar";
+        RecolectorDeImagenes(rutaFotos);
     }
 
     private static void RecolectorDeImagenes(string rutaFotos)
